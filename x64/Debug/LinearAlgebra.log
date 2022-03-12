@@ -1,0 +1,18 @@
+﻿  matrix.cpp
+C:\PinPoint\C++\LinearAlgebra\matrix.h(24,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(113,33): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(118,12): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(143,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(144,25): warning C4244: 'argument': conversion from 'size_t' to 'double', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(151,27): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(152,43): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(152,44): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(153,30): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(157,22): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(162,35): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(163,35): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(165,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(168,36): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(169,36): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\PinPoint\C++\LinearAlgebra\matrix.cpp(171,27): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  LinearAlgebra.vcxproj -> C:\PinPoint\C++\LinearAlgebra\x64\Debug\LinearAlgebra.exe
