@@ -121,6 +121,84 @@ int max_in_column(matrix& mat, int column, int start)
 	return ans;
 }
 
+matrix make_pivot(matrix& mat, int row1, int row2) {
+	//row1 and row2 must both be 1<= x <= mat.nrows
+
+	// mat must be square
+	if (mat.nrows != mat.ncols)
+	{
+		return mat;
+	}
+
+	else
+	{
+		for (int i = 1; i < mat.nrows + 1; i++)
+		{
+			for (int j = 1; j < mat.nrows + 1; j++)
+			{
+				if (i == j)
+				{
+					mat.set_value(i, j, 1);
+				}
+				else
+				{
+					mat.set_value(i, j, 0);
+				}
+			}
+		}
+
+		//if any row1 or row2 are <1 or >number of rows in mat or is row1 and row2 are equal then return an identity matrix the same size as mat.
+		if (row1 < 1 or row1>mat.nrows or row2<1 or row2>mat.nrows or row1 == row2) {
+			return mat;
+		}
+
+		//if all conditions are met then create a pivot matrix (Identity matrix with row 1 swapped with row 2)
+		else
+		{
+
+
+			mat.set_value(row1, row1, 0);
+			mat.set_value(row1, row2, 1);
+
+			mat.set_value(row2, row2, 0);
+			mat.set_value(row2, row1, 1);
+
+			return mat;
+		}
+	}
+}
+
+matrix invert_pivot(matrix& mat) {
+	matrix temp(mat.nrows, mat.ncols);
+	for (int i = 1; i < temp.nrows + 1; i++)
+	{
+		for (int j = 1; j < temp.ncols + 1; j++)
+		{
+			temp.set_value(temp.nrows + 1 - i, temp.ncols + 1 - j, mat.get_value(i,j));
+		}
+	}
+
+	return temp;
+}
+
+matrix forward_substitution(matrix& lower_trianglular, matrix& b) {
+	matrix y(b.nrows, 1);
+	double inner_sum;
+	y.set_value(1, 1, b.get_value(1, 1));
+
+	for (int i = 2; i < y.nrows + 1; i++)
+	{
+		inner_sum = 0;
+		for (int j = 0; j < i; j++)
+		{
+			inner_sum = inner_sum + lower_trianglular.get_value(i, j)* y.get_value(j, 1);
+		}
+		y.set_value(i, 1, b.get_value(i, 1)-inner_sum);
+	}
+
+	return y;
+}
+
 matrix LU(matrix& mat) {
 	//mat should be a square matrix (size MxM)
 	int pivot;
@@ -128,50 +206,108 @@ matrix LU(matrix& mat) {
 	int N = n + 1;
 	double scaling_factor = 1;
 	double val = 0;
-
-	matrix P(n, 1);
+	
+	matrix P(n, n);
 	matrix L(n, n);
 	matrix U(n, n);
+	matrix M(n, n);
+	matrix A(n, n);
+	matrix c(n, 1);
+	
 
-	for (size_t i = 0; i < n*n; i++)
+	A = make_pivot(A, 0, 0);
+
+	for (int i = 0; i < n*n; i++)
 	{
 		U.body[i] = mat.body[i];
 	}
 
-	for (size_t i = 1; i < N; i++)
+	L = make_pivot(L, 0, 0);
+	for (int i = 1; i < N; i++)
 	{
 		pivot = max_in_column(U, i, i);
-		P.set_value(pivot, 1, i);
-
-		//Pivot if Neccessary
-		if (pivot != i)
-		{
-			for (size_t j = 1; j < N; j++)
-			{
-				val = U.get_value(i, j);
-				U.set_value(i, j, U.get_value(pivot, j));
-				U.set_value(pivot, j, val);
-			}
-		}
+		P = make_pivot(P, i, pivot);
+		M = make_pivot(M, 0, 0);
+		U = matrix_multiplication(P, U);
 		
-		L.set_value(i, i, 1);
-		if (i>0)
-		{	// Gaussian Elimination
-			for (size_t j = i+1; j < N; j++)
-			{
-				double val1 = U.get_value(j, i);
-				double val2 = U.get_value(i, i);
-				scaling_factor = val1 / val2;
-				L.set_value(j, i, scaling_factor);
-				for (size_t k = 1; k < N; k++)
-				{
-					double val1 = U.get_value(j, k);
-					double val2 = U.get_value(i, k);
-					val = val1 - scaling_factor * val2;
-					U.set_value(j, k, val);
-				}
-			}
+		// Gaussian Elimination
+		for (int j = i+1; j < N; j++)
+		{
+			double val1 = U.get_value(j, i);
+			double val2 = U.get_value(i, i);
+			scaling_factor = val1 / val2;
+			M.set_value(j, i, -scaling_factor);
+		}
+
+		U = matrix_multiplication(M, U);
+		M = matrix_multiplication(M, P);
+		L = matrix_multiplication(M, L);
+		A = matrix_multiplication(P, A);		
+	}
+	// Set P = A. This is the total pivot matrix
+	for (int i = 0; i < n * n; i++)
+	{
+		P.body[i] = A.body[i];
+	}
+
+	// Compute the inverse of the total pivot matrix to organize the inverse Lower triangular matrix L. set to A
+	matrix B = invert_pivot(A);
+	A = matrix_multiplication(L, B);
+	B.del_self();
+
+	// Compute the inverse of A. Set to L
+	M = make_pivot(M, 0, 0);
+	for (int j = 1; j < N; j++)
+	{
+		for (int i = 1; i < N; i++)
+		{
+			c.set_value(i, 1, M.get_value(i, j));
+		}
+		matrix y = forward_substitution(A, c);
+
+		//Fill in A inverse (matrix L)
+		for (int i = 1; i < N; i++)
+		{
+			L.set_value(i, j, y.get_value(i, 1));
+		}
+		y.del_self();
+	}
+
+	matrix ans(n, n * 3);
+
+
+	//Combine L, U, and P matrices (in that column order) into one matrix to return. Would like to return them separately, don't know how yet.
+	for (int i = 1; i < N; i++)
+	{
+		for (int j = 1; j < N; j++)
+		{
+			ans.set_value(i, j, L.get_value(i, j));
+			ans.set_value(i, j + n, U.get_value(i, j));
+			ans.set_value(i, j + 2*n, P.get_value(i, j));
 		}
 	}
-	return matrix_multiplication(L, U);
+
+	//Cleanup Extra Matrices
+	A.del_self();
+	M.del_self();
+	c.del_self();
+	L.del_self();
+	U.del_self();
+	P.del_self();
+
+	return ans;
+}
+
+void print_matrix(matrix& mat) {
+	for (int i = 1; i < mat.nrows+1; i++)
+	{
+		for (int j = 1; j < mat.ncols + 1; j++)
+		{
+			double val = mat.get_value(i, j);
+			std::cout << val << "    ";
+		}
+		std::cout << "\n" << "-------------------------------------" << "\n";
+	}
+
+	std::cout << "\n" << "\n" << "\n";
 }

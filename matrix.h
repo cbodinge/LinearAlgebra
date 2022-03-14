@@ -42,3 +42,10 @@ matrix LU(matrix& mat);
 
 int max_in_column(matrix& mat, int column, int start);
 
+void print_matrix(matrix& mat);
+
+matrix make_pivot(matrix& mat, int row1, int row2);
+
+matrix invert_pivot(matrix& mat);
+
+matrix forward_substitution(matrix& lower_trianglular, matrix& b);

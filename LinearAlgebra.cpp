@@ -8,42 +8,21 @@ int main()
 {
     matrix a(3, 3);
     a.set_value(1, 1, 1);
-    a.set_value(2, 1, 3);
-    a.set_value(3, 1, 2);
+    a.set_value(2, 1, 2);
+    a.set_value(3, 1, 3);
 
     a.set_value(1, 2, 2);
-    a.set_value(2, 2, 8);
-    a.set_value(3, 2, 6);
+    a.set_value(2, 2, 1);
+    a.set_value(3, 2, 2);
 
     a.set_value(1, 3, 4);
-    a.set_value(2, 3, 14);
-    a.set_value(3, 3, 13);
+    a.set_value(2, 3, 3);
+    a.set_value(3, 3, 4);
 
-
-    matrix b(3, 3);
-    b.set_value(1, 1, 1);
-    b.set_value(2, 1, 0);
-    b.set_value(3, 1, 0);
-
-    b.set_value(1, 2, 2);
-    b.set_value(2, 2, 2);
-    b.set_value(3, 2, 0);
-
-    b.set_value(1, 3, 4);
-    b.set_value(2, 3, 2);
-    b.set_value(3, 3, 3);
-
-
-    matrix c=LU(a);
-
-    for (size_t i = 0; i < 9; i++)
-    {
-        std::cout << c.body[i] << "\n";
-    }
+    matrix c = LU(a);
+    print_matrix(c);
 
     a.del_self();
-    b.del_self();
-    c.del_self();
     
 
 }
