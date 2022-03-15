@@ -1,8 +1,0 @@
-﻿  LinearAlgebra.cpp
-C:\LinearAlgebra\matrix.h(24,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  matrix.cpp
-C:\LinearAlgebra\matrix.h(24,12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\LinearAlgebra\matrix.cpp(113,33): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\LinearAlgebra\matrix.cpp(118,12): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
-  LinearAlgebra.vcxproj -> C:\LinearAlgebra\x64\Debug\LinearAlgebra.exe
