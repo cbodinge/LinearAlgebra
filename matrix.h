@@ -28,6 +28,23 @@ public:
 	}
 };
 
+class identity : public matrix {
+public:
+	identity(int nrows, int ncols) {
+		identity::nrows = nrows;
+		identity::ncols = ncols;
+		int size = nrows * ncols;
+		body = new double[size];
+
+		for (size_t i = 0; i < size; i++)
+		{
+			int row = floor(i / identity::ncols) + 1;
+			int col = i % ncols + 1;
+			identity::set_value(row, col, 0);
+		}
+	}
+};
+
 matrix addition(matrix& mat1, matrix& mat2);
 
 matrix matrix_multiplication(matrix& mat1, matrix& mat2);
