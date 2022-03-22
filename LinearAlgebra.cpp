@@ -19,12 +19,12 @@ int main()
     a.set_value(2, 3, 3);
     a.set_value(3, 3, 4);
 
-    matrix c = LU(a);
-    print_matrix(c);
+    matrix c = a.LU();
+    c.print_matrix();
 
     a.del_self();
+    c.del_self();
     
-
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
