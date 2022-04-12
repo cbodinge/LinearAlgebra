@@ -34,10 +34,6 @@ void matrix::print_matrix() const
 	std::cout << "\n" << "\n" << "\n";
 }
 
-void matrix::del_self()
-{
-	delete[] matrix::body;
-}
 
 matrix matrix::transpose()
 {
@@ -148,7 +144,6 @@ matrix matrix::LU() {
 		{
 			upper_matrix.body[i] = temp.body[i];
 		}
-		temp.del_self();
 
 		// Update Upper Matrix with Row Operations
 		temp = matrix_multiplication(row_operations, lower_matrix);
@@ -156,16 +151,12 @@ matrix matrix::LU() {
 		{
 			lower_matrix.body[i] = temp.body[i];
 		}
-		temp.del_self();
 
 	}
-	pivot_matrix.del_self();
-	row_operations.del_self();
 
 	// Compute the inverse of the total pivot matrix to organize the inverse Lower triangular matrix L.
 	matrix inverted_pivot = complete_pivot_matrix.invert_pivot();
 	matrix inverted_lower_matrix = matrix_multiplication(lower_matrix, inverted_pivot);
-	inverted_pivot.del_self();
 
 	matrix temp(n, 1);
 	matrix iden(n, n);
@@ -184,10 +175,7 @@ matrix matrix::LU() {
 		{
 			lower_matrix.set_value(i, j, y.get_value(i, 1));
 		}
-		y.del_self();
 	}
-	temp.del_self();
-	iden.del_self();
 	matrix ans(n, n * 3);
 
 
@@ -201,11 +189,6 @@ matrix matrix::LU() {
 			ans.set_value(i, j + 2 * n, complete_pivot_matrix.get_value(i, j));
 		}
 	}
-
-	//Cleanup Extra Matrices
-	lower_matrix.del_self();
-	upper_matrix.del_self();
-	complete_pivot_matrix.del_self();
 
 	return ans;
 }

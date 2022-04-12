@@ -13,7 +13,6 @@ public:
 	double get_value(int row, int col) const;
 	void print_matrix() const;
 	void fill(double value);
-	void del_self();
 
 	void swap_rows(int row1, int row2);
 	void identity();
@@ -31,6 +30,10 @@ public:
 
 		fill(0);		
 	}
+
+	//Destructor
+	~matrix()
+	{ delete[] body; }
 };
 
 matrix addition(matrix& mat1, matrix& mat2);
