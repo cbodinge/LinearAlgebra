@@ -21,10 +21,6 @@ int main()
 
     matrix c = a.LU();
     c.print_matrix();
-
-    a.del_self();
-    c.del_self();
-    
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
