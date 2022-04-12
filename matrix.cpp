@@ -11,14 +11,14 @@ void matrix::set_value(int row, int col, double value)
 	matrix::body[position] = value;
 }
 
-double matrix::get_value(int row, int col)
+double matrix::get_value(int row, int col) const
 {
 	int position = (row - 1) * (matrix::ncols)+col - 1;
 	double ans = body[position];
 	return ans;
 }
 
-void matrix::print_matrix()
+void matrix::print_matrix() const
 {
 	for (int i = 1; i < nrows + 1; i++)
 	{

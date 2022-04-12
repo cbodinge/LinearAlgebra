@@ -10,8 +10,8 @@ public:
 	int ncols;
 
 	void set_value(int row, int col, double value);
-	double get_value(int row, int col);
-	void print_matrix();
+	double get_value(int row, int col) const;
+	void print_matrix() const;
 	void fill(double value);
 	void del_self();
 
