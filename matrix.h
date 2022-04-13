@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-class matrix
+class Matrix
 {
 public:
 	double* body;
@@ -17,14 +17,14 @@ public:
 	void swap_rows(int row1, int row2);
 	void identity();
 
-	matrix transpose();
-	matrix LU();
-	matrix invert_pivot();
+	Matrix transpose();
+	Matrix LU();
+	Matrix invert_pivot();
 
-	matrix(int nrows=1, int ncols=1) 
+	Matrix(int nrows=1, int ncols=1) 
 	{
-		matrix::nrows = nrows;
-		matrix::ncols = ncols;
+		Matrix::nrows = nrows;
+		Matrix::ncols = ncols;
 		int size = nrows * ncols;
 		body = new double[size];
 
@@ -32,18 +32,18 @@ public:
 	}
 
 	//Destructor
-	~matrix()
+	~Matrix()
 	{ delete[] body; }
 };
 
-matrix addition(matrix& mat1, matrix& mat2);
+Matrix addition(Matrix& mat1, Matrix& mat2);
 
-matrix matrix_multiplication(matrix& mat1, matrix& mat2);
+Matrix matrix_multiplication(Matrix& mat1, Matrix& mat2);
 
-matrix scalar_multiplication(matrix& mat, double scalar);
+Matrix scalar_multiplication(Matrix& mat, double scalar);
 
-int max_in_column(matrix& mat, int column, int start);
+int max_in_column(Matrix& mat, int column, int start);
 
-matrix LU(matrix& mat);
+Matrix LU(Matrix& mat);
 
-matrix forward_substitution(matrix& lower_trianglular, matrix& b);
+Matrix forward_substitution(Matrix& lower_trianglular, Matrix& b);

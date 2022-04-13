@@ -6,7 +6,7 @@
 
 int main()
 {
-    matrix a(3, 3);
+    Matrix a(3, 3);
     a.set_value(1, 1, 1);
     a.set_value(2, 1, 2);
     a.set_value(3, 1, 3);
@@ -19,7 +19,7 @@ int main()
     a.set_value(2, 3, 3);
     a.set_value(3, 3, 4);
 
-    matrix c = a.LU();
+    Matrix c = a.LU();
     c.print_matrix();
 }
 
