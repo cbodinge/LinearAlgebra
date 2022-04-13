@@ -2,23 +2,23 @@
 
 
 //-----------------------------------------------------------------------------------------------------------
-//	Class Methods for matrix
+//	Class Methods for Matrix
 //-----------------------------------------------------------------------------------------------------------
 
-void matrix::set_value(int row, int col, double value)
+void Matrix::set_value(int row, int col, double value)
 {
-	int position = (row - 1) * (matrix::ncols) + col - 1;
-	matrix::body[position] = value;
+	int position = (row - 1) * (Matrix::ncols) + col - 1;
+	Matrix::body[position] = value;
 }
 
-double matrix::get_value(int row, int col) const
+double Matrix::get_value(int row, int col) const
 {
-	int position = (row - 1) * (matrix::ncols)+col - 1;
+	int position = (row - 1) * (Matrix::ncols)+col - 1;
 	double ans = body[position];
 	return ans;
 }
 
-void matrix::print_matrix() const
+void Matrix::print_matrix() const
 {
 	for (int i = 1; i < nrows + 1; i++)
 	{
@@ -35,9 +35,9 @@ void matrix::print_matrix() const
 }
 
 
-matrix matrix::transpose()
+Matrix Matrix::transpose()
 {
-	matrix ans(ncols, nrows);
+	Matrix ans(ncols, nrows);
 	double val;
 	for (int i = 1; i < nrows + 1; i++)
 	{
@@ -50,7 +50,7 @@ matrix matrix::transpose()
 	return ans;
 }
 
-void matrix::identity()
+void Matrix::identity()
 {
 	for (int i = 1; i < nrows + 1; i++)
 	{
@@ -68,7 +68,7 @@ void matrix::identity()
 	}
 }
 
-void matrix::swap_rows(int row1, int row2)
+void Matrix::swap_rows(int row1, int row2)
 {
 	double val1;
 	double val2;
@@ -81,10 +81,10 @@ void matrix::swap_rows(int row1, int row2)
 	}
 }
 
-matrix matrix::invert_pivot()
+Matrix Matrix::invert_pivot()
 	// Must be a pivot matrix to return a correct result.
 {
-	matrix temp(nrows, ncols);
+	Matrix temp(nrows, ncols);
 	for (int i = 1; i < nrows + 1; i++)
 	{
 		for (int j = 1; j < ncols + 1; j++)
@@ -96,7 +96,7 @@ matrix matrix::invert_pivot()
 	return temp;
 }
 
-matrix matrix::LU() {
+Matrix Matrix::LU() {
 	//mat should be a square matrix (size MxM)
 	int pivot;
 	int n = nrows;
@@ -105,12 +105,12 @@ matrix matrix::LU() {
 	double scaling_factor = 1;
 	double val = 0;
 
-	matrix complete_pivot_matrix(n, n);
-	matrix upper_matrix(n, n);
-	matrix lower_matrix(n, n);
+	Matrix complete_pivot_matrix(n, n);
+	Matrix upper_matrix(n, n);
+	Matrix lower_matrix(n, n);
 
-	matrix pivot_matrix(n, n);
-	matrix row_operations(n, n);
+	Matrix pivot_matrix(n, n);
+	Matrix row_operations(n, n);
 
 	for (int i = 0; i < n * n; i++)
 	{
@@ -139,14 +139,14 @@ matrix matrix::LU() {
 		}
 
 		// Update Upper Matrix with Row Operations
-		matrix temp = matrix_multiplication(row_operations, upper_matrix);
+		Matrix temp = matrix_multiplication(row_operations, upper_matrix);
 		for (int i = 0; i < size; i++)
 		{
 			upper_matrix.body[i] = temp.body[i];
 		}
 
 		// Update Upper Matrix with Row Operations
-		temp = matrix_multiplication(row_operations, lower_matrix);
+		temp = matrix_multiplication(row_operations, lower_amtrix);
 		for (int i = 0; i < size; i++)
 		{
 			lower_matrix.body[i] = temp.body[i];
@@ -154,12 +154,12 @@ matrix matrix::LU() {
 
 	}
 
-	// Compute the inverse of the total pivot matrix to organize the inverse Lower triangular matrix L.
-	matrix inverted_pivot = complete_pivot_matrix.invert_pivot();
-	matrix inverted_lower_matrix = matrix_multiplication(lower_matrix, inverted_pivot);
+	// Compute the inverse of the total pivot Matrix to organize the inverse Lower triangular Matrix L.
+	Matrix inverted_pivot = complete_pivot_matrix.invert_pivot();
+	Matrix inverted_lower_Matrix = matrix_multiplication(lower_matrix, inverted_pivot);
 
-	matrix temp(n, 1);
-	matrix iden(n, n);
+	Matrix temp(n, 1);
+	Matrix iden(n, n);
 	iden.identity();
 
 	for (int j = 1; j < N; j++)
@@ -168,18 +168,18 @@ matrix matrix::LU() {
 		{
 			temp.set_value(i, 1, iden.get_value(i, j));
 		}
-		matrix y = forward_substitution(inverted_lower_matrix, temp);
+		Matrix y = forward_substitution(inverted_lower_matrix, temp);
 
-		// Fill in A inverse (matrix L)
+		// Fill in A inverse (Matrix L)
 		for (int i = 1; i < N; i++)
 		{
 			lower_matrix.set_value(i, j, y.get_value(i, 1));
 		}
 	}
-	matrix ans(n, n * 3);
+	Matrix ans(n, n * 3);
 
 
-	//Combine L, U, and P matrices (in that column order) into one matrix to return. Would like to return them separately, don't know how yet.
+	//Combine L, U, and P matrices (in that column order) into one Matrix to return. Would like to return them separately, don't know how yet.
 	for (int i = 1; i < N; i++)
 	{
 		for (int j = 1; j < N; j++)
@@ -193,7 +193,7 @@ matrix matrix::LU() {
 	return ans;
 }
 
-void matrix::fill(double value)
+void Matrix::fill(double value)
 {
 	for (int i = 1; i < nrows + 1; i++)
 	{
@@ -206,26 +206,26 @@ void matrix::fill(double value)
 
 
 // ----------------------------------------------------------------------------------------------------------
-//	Functions Involving the matrix class
+//	Functions Involving the Matrix class
 // ----------------------------------------------------------------------------------------------------------
 
-matrix addition(matrix& mat1, matrix& mat2)
+Matrix addition(Matrix& mat1, Matrix& mat2)
 {
 	if (mat1.nrows == mat2.nrows and mat1.ncols == mat2.ncols)
 	{
 		int size = mat1.ncols * mat1.nrows;
-		matrix ans(mat1.nrows, mat1.ncols);
+		Matrix ans(mat1.nrows, mat1.ncols);
 		for (size_t i = 0; i < size; i++)
 		{
 			ans.body[i] = mat1.body[i] + mat2.body[i];
 		}
 		return ans;
 	}
-	matrix ans(1, 1);
+	Matrix ans(1, 1);
 	return ans;
 }
 
-matrix matrix_multiplication(matrix& mat1, matrix& mat2)
+Matrix Matrix_multiplication(Matrix& mat1, Matrix& mat2)
 {
 	double val=0;
 	double val1=0;
@@ -233,7 +233,7 @@ matrix matrix_multiplication(matrix& mat1, matrix& mat2)
 
 	if (mat1.ncols == mat2.nrows)
 	{
-		matrix ans(mat1.nrows, mat2.ncols);
+		Matrix ans(mat1.nrows, mat2.ncols);
 		int size = mat1.nrows * mat2.nrows;
 
 		for (int j = 0; j < mat1.nrows; j++)
@@ -254,14 +254,14 @@ matrix matrix_multiplication(matrix& mat1, matrix& mat2)
 	}
 	else
 	{
-		return matrix(1, 1);
+		return Matrix(1, 1);
 	}
 	
 }
 
-matrix scalar_multiplication(matrix& mat, double scalar)
+Matrix scalar_multiplication(Matrix& mat, double scalar)
 {
-	matrix ans(mat.nrows, mat.ncols);
+	Matrix ans(mat.nrows, mat.ncols);
 	int size = mat.nrows * mat.ncols;
 	for (size_t i = 0; i < size; i++)
 	{
@@ -270,7 +270,7 @@ matrix scalar_multiplication(matrix& mat, double scalar)
 	return ans;
 }
 
-int max_in_column(matrix& mat, int column, int start)
+int max_in_column(Matrix& mat, int column, int start)
 {
 	double val1;
 	double val2=0;
@@ -290,9 +290,9 @@ int max_in_column(matrix& mat, int column, int start)
 	return ans;
 }
 
-matrix forward_substitution(matrix& lower_trianglular, matrix& b)
+Matrix forward_substitution(Matrix& lower_trianglular, Matrix& b)
 {
-	matrix y(b.nrows, 1);
+	Matrix y(b.nrows, 1);
 	double inner_sum;
 	y.set_value(1, 1, b.get_value(1, 1));
 
